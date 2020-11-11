@@ -9,7 +9,7 @@ yarn install
 ```
 yarn serve
 ```
-## 代码生成
+## 代码生成简单页面和路由
 ```
 npm run create
 ```
