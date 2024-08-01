@@ -2,43 +2,45 @@ module.exports = function (plop) {
   // controller generator
   plop.setGenerator('controller', {
     description: 'application controller logic',
-    prompts: [{
+    prompts: [
+      {
         type: 'input',
-        name: 'route',
-        message: '路由地址, goodsList/detail',
+        name: 'routeUrl',
+        message: '路由配置-路由地址,例如：goodsList/detail',
         validate: (value) => {
           return !value ? '请输入路由地址' : true;
         },
       },
       {
         type: 'input',
-        name: 'name',
-        message: '请输入page下的vue文件名,home/index',
+        name: 'routeName',
+        message: '路由配置-路由的name值',
+      },
+      {
+        type: 'input',
+        name: 'routeTitle',
+        message: '路由配置-路由的title值',
+      },
+      {
+        type: 'input',
+        name: 'filePath',
+        message: '请输入文件名,例如：home/index',
         validate: (value) => {
           return !value ? '请输入page下的vue文件名' : true;
         },
       },
-      {
-        type: 'input',
-        name: 'metaName',
-        message: '路由的name值',
-      },
-      {
-        type: 'input',
-        name: 'metaTitle',
-        message: '路由的title值',
-      }
     ],
-    actions: data => {
-      const route = '{{route}}';
-      const name = '{{name}}';
-      const metaName = '{{metaName}}';
-      const metaTitle = '{{metaTitle}}';
-      console.log(data.route)
-      const actions = [{
+    actions: (data) => {
+      const routeUrl = '{{routeUrl}}';
+      const filePath = '{{filePath}}';
+      const routeName = '{{routeName}}';
+      const routeTitle = '{{routeTitle}}';
+      console.log(data.routeUrl);
+      const actions = [
+        {
           type: 'add',
           path: 'src/pages/{{name}}.vue',
-          templateFile: 'templates/components/Templatecomponent.vue'
+          templateFile: 'templates/components/Templatecomponent.vue',
         },
         {
           // 配置路由文件
@@ -46,19 +48,17 @@ module.exports = function (plop) {
           path: 'src/pages/router/index.js',
           pattern: /\/\/---ROUTER_IMPORT---/,
           template: `{
-      path: "/${route}", 
-      name: "${metaName}",
-      component: () => import("../pages/${name}"),
+      path: "/${routeUrl}", 
+      name: "${routeName}",
+      component: () => import("../pages/${filePath}"),
       meta: {
-        title: "${metaTitle}"
+        title: "${routeTitle}"
       }
     },
     //---ROUTER_IMPORT---`,
         },
-      ]
-      return actions
-    }
-
-
+      ];
+      return actions;
+    },
   });
 };
